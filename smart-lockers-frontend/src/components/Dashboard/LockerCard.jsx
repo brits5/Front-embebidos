@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, Weight, Lock, Unlock } from 'lucide-react';
+import { User, Scale, Lock, Unlock } from 'lucide-react';
 import StatusBadge from '../Common/StatusBadge';
 import { formatWeight, formatTimeAgo } from '../../utils/formatters';
 import { useLockers } from '../../hooks/useLockers';
@@ -70,7 +70,7 @@ const LockerCard = ({ locker, isSelected, onClick }) => {
 
       {/* Weight */}
       <div className="flex items-center mb-2 text-sm text-gray-600">
-        <Weight className="w-4 h-4 mr-1" />
+        <Scale className="w-4 h-4 mr-1" />
         <span>{formatWeight(locker.current_weight)}</span>
       </div>
 

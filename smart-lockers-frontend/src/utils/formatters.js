@@ -3,20 +3,32 @@ import { es } from 'date-fns/locale';
 
 export const formatDate = (date) => {
   if (!date) return 'N/A';
-  return format(new Date(date), 'dd/MM/yyyy HH:mm', { locale: es });
+  try {
+    return format(new Date(date), 'dd/MM/yyyy HH:mm', { locale: es });
+  } catch (error) {
+    return 'Fecha inválida';
+  }
 };
 
 export const formatDateShort = (date) => {
   if (!date) return 'N/A';
-  return format(new Date(date), 'dd/MM/yyyy', { locale: es });
+  try {
+    return format(new Date(date), 'dd/MM/yyyy', { locale: es });
+  } catch (error) {
+    return 'Fecha inválida';
+  }
 };
 
 export const formatTimeAgo = (date) => {
   if (!date) return 'N/A';
-  return formatDistance(new Date(date), new Date(), { 
-    addSuffix: true, 
-    locale: es 
-  });
+  try {
+    return formatDistance(new Date(date), new Date(), { 
+      addSuffix: true, 
+      locale: es 
+    });
+  } catch (error) {
+    return 'Tiempo inválido';
+  }
 };
 
 export const formatWeight = (weight) => {

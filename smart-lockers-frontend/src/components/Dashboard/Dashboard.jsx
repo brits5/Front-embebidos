@@ -4,7 +4,7 @@ import { useRfid } from '../../hooks/useRfid';
 import StatsPanel from './StatsPanel';
 import LockerGrid from './LockerGrid';
 import RfidSimulator from './RfidSimulator';
-import LoadingSpinner from '../common/LoadingSpinner';
+import LoadingSpinner from '../Common/LoadingSpinner';
 
 const Dashboard = () => {
   const { lockers, stats, loading, error } = useLockers();

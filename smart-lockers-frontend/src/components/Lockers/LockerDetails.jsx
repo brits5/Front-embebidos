@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, User, Weight, Clock, Activity, Lock, Unlock, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, User, Weight, Clock, Activity, Lock, Unlock, AlertTriangle, Scale } from 'lucide-react';
 import { lockerService } from '../../services/lockerService';
 import { useLockers } from '../../hooks/useLockers';
 import StatusBadge from '../Common/StatusBadge';
@@ -134,7 +134,7 @@ const LockerDetails = () => {
                 <div>
                   <label className="text-sm font-medium text-gray-500">Peso Actual</label>
                   <div className="flex items-center">
-                    <Weight className="w-4 h-4 text-gray-400 mr-1" />
+                    <Scale className="w-4 h-4 text-gray-400 mr-1" />
                     <span className="text-gray-900">{formatWeight(locker.current_weight)}</span>
                   </div>
                 </div>

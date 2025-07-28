@@ -3,7 +3,7 @@ import { Plus, Search, Edit, Trash2, CreditCard } from 'lucide-react';
 import { useUsers } from '../../hooks/useUsers';
 import UserForm from './UserForm';
 import Modal from '../Common/Modal';
-import LoadingSpinner from '../common/LoadingSpinner';
+import LoadingSpinner from '../Common/LoadingSpinner';
 import { formatDate, formatTimeAgo } from '../../utils/formatters';
 import { USER_ROLE_LABELS } from '../../utils/constants';
 
