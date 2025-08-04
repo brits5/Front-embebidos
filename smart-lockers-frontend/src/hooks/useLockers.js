@@ -1,7 +1,7 @@
+// src/hooks/useLockers.js
 import { useState, useEffect, useCallback } from 'react';
 import { lockerService } from '../services/lockerService';
 import { useSocket } from './useSocket';
-import { toast } from 'react-toastify';
 
 export const useLockers = () => {
   const [lockers, setLockers] = useState([]);
@@ -23,15 +23,39 @@ export const useLockers = () => {
     try {
       setLoading(true);
       setError(null);
+      console.log('🔄 Cargando lockers...');
+      
       const [lockersData, statsData] = await Promise.all([
         lockerService.getLockers(),
         lockerService.getLockerStats()
       ]);
-      setLockers(lockersData);
-      setStats(statsData);
+      
+      console.log('✅ Lockers cargados:', lockersData);
+      console.log('✅ Stats cargadas:', statsData);
+      
+      setLockers(lockersData || []);
+      setStats(statsData || {
+        total: 0,
+        available: 0,
+        occupied: 0,
+        reserved: 0,
+        maintenance: 0,
+        utilization: 0
+      });
     } catch (err) {
+      console.error('❌ Error cargando lockers:', err);
       setError(err.message);
-      toast.error('Error al cargar lockers: ' + err.message);
+      
+      // Datos de fallback para desarrollo
+      setLockers([]);
+      setStats({
+        total: 0,
+        available: 0,
+        occupied: 0,
+        reserved: 0,
+        maintenance: 0,
+        utilization: 0
+      });
     } finally {
       setLoading(false);
     }
@@ -51,10 +75,10 @@ export const useLockers = () => {
     try {
       const result = await lockerService.assignLocker(userId, lockerId);
       updateLocker(result);
-      toast.success(`Locker ${result.locker_number} asignado correctamente`);
+      console.log(`✅ Locker ${result.locker_number} asignado correctamente`);
       return result;
     } catch (err) {
-      toast.error(err.message);
+      console.error('❌ Error asignando locker:', err);
       throw err;
     }
   }, [updateLocker]);
@@ -64,10 +88,10 @@ export const useLockers = () => {
     try {
       const result = await lockerService.releaseLocker(lockerId, adminRelease);
       updateLocker(result);
-      toast.success(`Locker ${result.locker_number} liberado correctamente`);
+      console.log(`✅ Locker ${result.locker_number} liberado correctamente`);
       return result;
     } catch (err) {
-      toast.error(err.message);
+      console.error('❌ Error liberando locker:', err);
       throw err;
     }
   }, [updateLocker]);
@@ -79,7 +103,7 @@ export const useLockers = () => {
       updateLocker(result);
       return result;
     } catch (err) {
-      toast.error(err.message);
+      console.error('❌ Error actualizando peso:', err);
       throw err;
     }
   }, [updateLocker]);
@@ -89,15 +113,21 @@ export const useLockers = () => {
     try {
       const result = await lockerService.emergencyOpen(lockerId);
       updateLocker(result);
-      toast.warning(`Apertura de emergencia activada en ${result.locker_number}`);
+      console.log(`⚠️ Apertura de emergencia activada en ${result.locker_number}`);
       return result;
     } catch (err) {
-      toast.error(err.message);
+      console.error('❌ Error en apertura de emergencia:', err);
       throw err;
     }
   }, [updateLocker]);
 
-  // Efectos para WebSocket
+  // Cargar datos iniciales
+  useEffect(() => {
+    fetchLockers();
+  }, [fetchLockers]);
+
+  // Efectos para WebSocket (opcional, por ahora comentado)
+  /*
   useEffect(() => {
     const handleLockerUpdate = (updatedLocker) => {
       updateLocker(updatedLocker);
@@ -105,11 +135,10 @@ export const useLockers = () => {
 
     const handleRfidResult = (result) => {
       if (result.success) {
-        toast.success(`RFID procesado: ${result.user_name} - ${result.locker_number}`);
-        // Refrescar datos después de procesamiento RFID
+        console.log(`RFID procesado: ${result.user_name} - ${result.locker_number}`);
         fetchLockers();
       } else {
-        toast.error(`Error RFID: ${result.message}`);
+        console.error(`Error RFID: ${result.message}`);
       }
     };
 
@@ -121,25 +150,7 @@ export const useLockers = () => {
       off('rfid_scan_result', handleRfidResult);
     };
   }, [on, off, updateLocker, fetchLockers]);
-
-  // Cargar datos iniciales
-  useEffect(() => {
-    fetchLockers();
-  }, [fetchLockers]);
-
-  // Refrescar estadísticas periódicamente
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      try {
-        const newStats = await lockerService.getLockerStats();
-        setStats(newStats);
-      } catch (err) {
-        console.error('Error actualizando estadísticas:', err);
-      }
-    }, 30000); // Cada 30 segundos
-
-    return () => clearInterval(interval);
-  }, []);
+  */
 
   return {
     lockers,

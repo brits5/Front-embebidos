@@ -6,6 +6,7 @@ import './styles/global.css';
 import Layout from './components/Layout/Layout';
 import Dashboard from './components/Dashboard/Dashboard';
 import UserList from './components/Users/UserList';
+import LockerAllLogs from './components/LockerLogs/LockerAllLogs';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/users" element={<UserList />} />
+            <Route path="/lockers" element={<LockerAllLogs />} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </Layout>

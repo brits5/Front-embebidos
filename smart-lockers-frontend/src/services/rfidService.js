@@ -1,3 +1,4 @@
+ //src/services/rfidService.js
 import api from './api';
 
 export const rfidService = {
@@ -9,7 +10,7 @@ export const rfidService = {
       });
       return response.data;
     } catch (error) {
-      throw new Error('Error al procesar RFID: ' + error.message);
+      throw new Error('Error al procesar RFID: ' + (error.response?.data?.message || error.message));
     }
   },
 
@@ -19,7 +20,7 @@ export const rfidService = {
       const response = await api.get(`/rfid/test/${rfidUid}`);
       return response.data;
     } catch (error) {
-      throw new Error('Error en prueba RFID: ' + error.message);
+      throw new Error('Error en prueba RFID: ' + (error.response?.data?.message || error.message));
     }
   }
 };

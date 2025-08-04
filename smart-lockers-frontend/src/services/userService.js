@@ -1,3 +1,4 @@
+// src/services/userService.js
 import api from './api';
 
 export const userService = {
@@ -7,7 +8,7 @@ export const userService = {
       const response = await api.get('/users');
       return response.data;
     } catch (error) {
-      throw new Error('Error al obtener usuarios: ' + error.message);
+      throw new Error('Error al obtener usuarios: ' + (error.response?.data?.message || error.message));
     }
   },
 
@@ -17,7 +18,7 @@ export const userService = {
       const response = await api.post('/users', userData);
       return response.data;
     } catch (error) {
-      throw new Error('Error al crear usuario: ' + error.message);
+      throw new Error('Error al crear usuario: ' + (error.response?.data?.message || error.message));
     }
   },
 
@@ -27,7 +28,7 @@ export const userService = {
       const response = await api.get(`/users/${id}`);
       return response.data;
     } catch (error) {
-      throw new Error('Error al obtener usuario: ' + error.message);
+      throw new Error('Error al obtener usuario: ' + (error.response?.data?.message || error.message));
     }
   },
 
@@ -37,7 +38,7 @@ export const userService = {
       const response = await api.get(`/users/rfid/${rfidUid}`);
       return response.data;
     } catch (error) {
-      throw new Error('Usuario no encontrado: ' + error.message);
+      throw new Error('Usuario no encontrado: ' + (error.response?.data?.message || error.message));
     }
   },
 
@@ -47,7 +48,7 @@ export const userService = {
       const response = await api.put(`/users/${id}`, userData);
       return response.data;
     } catch (error) {
-      throw new Error('Error al actualizar usuario: ' + error.message);
+      throw new Error('Error al actualizar usuario: ' + (error.response?.data?.message || error.message));
     }
   },
 
@@ -57,7 +58,7 @@ export const userService = {
       const response = await api.delete(`/users/${id}`);
       return response.data;
     } catch (error) {
-      throw new Error('Error al eliminar usuario: ' + error.message);
+      throw new Error('Error al eliminar usuario: ' + (error.response?.data?.message || error.message));
     }
   }
 };
